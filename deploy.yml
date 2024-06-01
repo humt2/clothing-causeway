@@ -1,0 +1,27 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Deploy on push to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu as the operating system
+
+    steps:
+      - name: Checkout repository  # Checkout the repository to the runner
+        uses: actions/checkout@v2
+
+      - name: Install dependencies  # Install npm dependencies
+        run: npm install
+
+      - name: Build  # Build the React app
+        run: npm run build
+
+      - name: Deploy to GitHub Pages  # Deploy the built app to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.2
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}  # GitHub Personal Access Token for deployment
+          BRANCH: gh-pages  # Branch to deploy to
+          FOLDER: build  # Folder containing the built app
